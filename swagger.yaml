@@ -1,718 +1,2243 @@
----
-swagger: "2.0"
-info:
-  description: "This is a sample server Petstore server.  You can find out more about\
-    \ Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).\
-    \  For this sample, you can use the api key `special-key` to test the authorization\
-    \ filters."
-  version: "1.0.5"
-  title: "Swagger Petstore"
-  termsOfService: "http://swagger.io/terms/"
-  contact:
-    email: "apiteam@swagger.io"
-  license:
-    name: "Apache 2.0"
-    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
-host: "petstore.swagger.io"
-basePath: "/v2"
-tags:
-- name: "pet"
-  description: "Everything about your Pets"
-  externalDocs:
-    description: "Find out more"
-    url: "http://swagger.io"
-- name: "store"
-  description: "Access to Petstore orders"
-- name: "user"
-  description: "Operations about user"
-  externalDocs:
-    description: "Find out more about our store"
-    url: "http://swagger.io"
-schemes:
-- "https"
-- "http"
-paths:
-  /pet/{petId}/uploadImage:
-    post:
-      tags:
-      - "pet"
-      summary: "uploads an image"
-      description: ""
-      operationId: "uploadFile"
-      consumes:
-      - "multipart/form-data"
-      produces:
-      - "application/json"
-      parameters:
-      - name: "petId"
-        in: "path"
-        description: "ID of pet to update"
-        required: true
-        type: "integer"
-        format: "int64"
-      - name: "additionalMetadata"
-        in: "formData"
-        description: "Additional data to pass to server"
-        required: false
-        type: "string"
-      - name: "file"
-        in: "formData"
-        description: "file to upload"
-        required: false
-        type: "file"
-      responses:
-        200:
-          description: "successful operation"
-          schema:
-            $ref: "#/definitions/ApiResponse"
-      security:
-      - petstore_auth:
-        - "write:pets"
-        - "read:pets"
-  /pet:
-    post:
-      tags:
-      - "pet"
-      summary: "Add a new pet to the store"
-      description: ""
-      operationId: "addPet"
-      consumes:
-      - "application/json"
-      - "application/xml"
-      produces:
-      - "application/json"
-      - "application/xml"
-      parameters:
-      - in: "body"
-        name: "body"
-        description: "Pet object that needs to be added to the store"
-        required: true
-        schema:
-          $ref: "#/definitions/Pet"
-      responses:
-        405:
-          description: "Invalid input"
-      security:
-      - petstore_auth:
-        - "write:pets"
-        - "read:pets"
-    put:
-      tags:
-      - "pet"
-      summary: "Update an existing pet"
-      description: ""
-      operationId: "updatePet"
-      consumes:
-      - "application/json"
-      - "application/xml"
-      produces:
-      - "application/json"
-      - "application/xml"
-      parameters:
-      - in: "body"
-        name: "body"
-        description: "Pet object that needs to be added to the store"
-        required: true
-        schema:
-          $ref: "#/definitions/Pet"
-      responses:
-        400:
-          description: "Invalid ID supplied"
-        404:
-          description: "Pet not found"
-        405:
-          description: "Validation exception"
-      security:
-      - petstore_auth:
-        - "write:pets"
-        - "read:pets"
-  /pet/findByStatus:
-    get:
-      tags:
-      - "pet"
-      summary: "Finds Pets by status"
-      description: "Multiple status values can be provided with comma separated strings"
-      operationId: "findPetsByStatus"
-      produces:
-      - "application/json"
-      - "application/xml"
-      parameters:
-      - name: "status"
-        in: "query"
-        description: "Status values that need to be considered for filter"
-        required: true
-        type: "array"
-        items:
-          type: "string"
-          enum:
-          - "available"
-          - "pending"
-          - "sold"
-          default: "available"
-        collectionFormat: "multi"
-      responses:
-        200:
-          description: "successful operation"
-          schema:
-            type: "array"
-            items:
-              $ref: "#/definitions/Pet"
-        400:
-          description: "Invalid status value"
-      security:
-      - petstore_auth:
-        - "write:pets"
-        - "read:pets"
-  /pet/findByTags:
-    get:
-      tags:
-      - "pet"
-      summary: "Finds Pets by tags"
-      description: "Multiple tags can be provided with comma separated strings. Use\
-        \ tag1, tag2, tag3 for testing."
-      operationId: "findPetsByTags"
-      produces:
-      - "application/json"
-      - "application/xml"
-      parameters:
-      - name: "tags"
-        in: "query"
-        description: "Tags to filter by"
-        required: true
-        type: "array"
-        items:
-          type: "string"
-        collectionFormat: "multi"
-      responses:
-        200:
-          description: "successful operation"
-          schema:
-            type: "array"
-            items:
-              $ref: "#/definitions/Pet"
-        400:
-          description: "Invalid tag value"
-      security:
-      - petstore_auth:
-        - "write:pets"
-        - "read:pets"
-      deprecated: true
-  /pet/{petId}:
-    get:
-      tags:
-      - "pet"
-      summary: "Find pet by ID"
-      description: "Returns a single pet"
-      operationId: "getPetById"
-      produces:
-      - "application/json"
-      - "application/xml"
-      parameters:
-      - name: "petId"
-        in: "path"
-        description: "ID of pet to return"
-        required: true
-        type: "integer"
-        format: "int64"
-      responses:
-        200:
-          description: "successful operation"
-          schema:
-            $ref: "#/definitions/Pet"
-        400:
-          description: "Invalid ID supplied"
-        404:
-          description: "Pet not found"
-      security:
-      - api_key: []
-    post:
-      tags:
-      - "pet"
-      summary: "Updates a pet in the store with form data"
-      description: ""
-      operationId: "updatePetWithForm"
-      consumes:
-      - "application/x-www-form-urlencoded"
-      produces:
-      - "application/json"
-      - "application/xml"
-      parameters:
-      - name: "petId"
-        in: "path"
-        description: "ID of pet that needs to be updated"
-        required: true
-        type: "integer"
-        format: "int64"
-      - name: "name"
-        in: "formData"
-        description: "Updated name of the pet"
-        required: false
-        type: "string"
-      - name: "status"
-        in: "formData"
-        description: "Updated status of the pet"
-        required: false
-        type: "string"
-      responses:
-        405:
-          description: "Invalid input"
-      security:
-      - petstore_auth:
-        - "write:pets"
-        - "read:pets"
-    delete:
-      tags:
-      - "pet"
-      summary: "Deletes a pet"
-      description: ""
-      operationId: "deletePet"
-      produces:
-      - "application/json"
-      - "application/xml"
-      parameters:
-      - name: "api_key"
-        in: "header"
-        required: false
-        type: "string"
-      - name: "petId"
-        in: "path"
-        description: "Pet id to delete"
-        required: true
-        type: "integer"
-        format: "int64"
-      responses:
-        400:
-          description: "Invalid ID supplied"
-        404:
-          description: "Pet not found"
-      security:
-      - petstore_auth:
-        - "write:pets"
-        - "read:pets"
-  /store/order:
-    post:
-      tags:
-      - "store"
-      summary: "Place an order for a pet"
-      description: ""
-      operationId: "placeOrder"
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      - "application/xml"
-      parameters:
-      - in: "body"
-        name: "body"
-        description: "order placed for purchasing the pet"
-        required: true
-        schema:
-          $ref: "#/definitions/Order"
-      responses:
-        200:
-          description: "successful operation"
-          schema:
-            $ref: "#/definitions/Order"
-        400:
-          description: "Invalid Order"
-  /store/order/{orderId}:
-    get:
-      tags:
-      - "store"
-      summary: "Find purchase order by ID"
-      description: "For valid response try integer IDs with value >= 1 and <= 10.\
-        \ Other values will generated exceptions"
-      operationId: "getOrderById"
-      produces:
-      - "application/json"
-      - "application/xml"
-      parameters:
-      - name: "orderId"
-        in: "path"
-        description: "ID of pet that needs to be fetched"
-        required: true
-        type: "integer"
-        maximum: 10
-        minimum: 1
-        format: "int64"
-      responses:
-        200:
-          description: "successful operation"
-          schema:
-            $ref: "#/definitions/Order"
-        400:
-          description: "Invalid ID supplied"
-        404:
-          description: "Order not found"
-    delete:
-      tags:
-      - "store"
-      summary: "Delete purchase order by ID"
-      description: "For valid response try integer IDs with positive integer value.\
-        \ Negative or non-integer values will generate API errors"
-      operationId: "deleteOrder"
-      produces:
-      - "application/json"
-      - "application/xml"
-      parameters:
-      - name: "orderId"
-        in: "path"
-        description: "ID of the order that needs to be deleted"
-        required: true
-        type: "integer"
-        minimum: 1
-        format: "int64"
-      responses:
-        400:
-          description: "Invalid ID supplied"
-        404:
-          description: "Order not found"
-  /store/inventory:
-    get:
-      tags:
-      - "store"
-      summary: "Returns pet inventories by status"
-      description: "Returns a map of status codes to quantities"
-      operationId: "getInventory"
-      produces:
-      - "application/json"
-      parameters: []
-      responses:
-        200:
-          description: "successful operation"
-          schema:
-            type: "object"
-            additionalProperties:
-              type: "integer"
-              format: "int32"
-      security:
-      - api_key: []
-  /user/createWithArray:
-    post:
-      tags:
-      - "user"
-      summary: "Creates list of users with given input array"
-      description: ""
-      operationId: "createUsersWithArrayInput"
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      - "application/xml"
-      parameters:
-      - in: "body"
-        name: "body"
-        description: "List of user object"
-        required: true
-        schema:
-          type: "array"
+components:
+  schemas:
+    APIError:
+      properties:
+        details:
+          $ref: '#/components/schemas/Details'
+        message:
+          type: string
+      required:
+      - message
+      type: object
+    CreateDraftWishRequest:
+      properties:
+        description:
+          type: string
+        image_url:
+          type: string
+        name:
+          type: string
+        price:
+          type: integer
+        url:
+          type: string
+      required:
+      - url
+      type: object
+    CreateFriendRequest:
+      properties:
+        receiver_id:
+          type: integer
+      required:
+      - receiver_id
+      type: object
+    CreateWishlistItemRequest:
+      properties:
+        description:
+          type: string
+        name:
+          type: string
+      required:
+      - name
+      type: object
+    CreateWishlistRequest:
+      properties:
+        description:
+          type: string
+        name:
+          type: string
+      required:
+      - name
+      type: object
+    Details:
+      additionalProperties:
+        type: string
+      type: object
+    DraftWish:
+      properties:
+        created_at:
+          type: string
+        description:
+          type: string
+        id:
+          type: integer
+        image_url:
+          type: string
+        name:
+          type: string
+        price:
+          type: integer
+        url:
+          type: string
+        user_id:
+          type: integer
+      required:
+      - id
+      - url
+      - user_id
+      type: object
+    ErrorResponse:
+      properties:
+        error:
+          $ref: '#/components/schemas/APIError'
+      required:
+      - error
+      type: object
+    FriendRequest:
+      properties:
+        created_at:
+          type: string
+        id:
+          type: integer
+        receiver_id:
+          type: integer
+        sender_id:
+          type: integer
+        status:
+          $ref: '#/components/schemas/friend.RequestStatus'
+        updated_at:
+          type: string
+      required:
+      - created_at
+      - id
+      - receiver_id
+      - sender_id
+      - status
+      - updated_at
+      type: object
+    InviteRequest:
+      properties:
+        user_ids:
           items:
-            $ref: "#/definitions/User"
-      responses:
-        default:
-          description: "successful operation"
-  /user/createWithList:
-    post:
-      tags:
-      - "user"
-      summary: "Creates list of users with given input array"
-      description: ""
-      operationId: "createUsersWithListInput"
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      - "application/xml"
-      parameters:
-      - in: "body"
-        name: "body"
-        description: "List of user object"
-        required: true
-        schema:
-          type: "array"
+            type: integer
+          type: array
+          uniqueItems: false
+      type: object
+    ItemPhoto:
+      properties:
+        url:
+          type: string
+      type: object
+    LoginRequest:
+      properties:
+        password:
+          type: string
+        username:
+          type: string
+      required:
+      - password
+      - username
+      type: object
+    Page-DraftWish:
+      properties:
+        data:
           items:
-            $ref: "#/definitions/User"
-      responses:
-        default:
-          description: "successful operation"
-  /user/{username}:
-    get:
-      tags:
-      - "user"
-      summary: "Get user by user name"
-      description: ""
-      operationId: "getUserByName"
-      produces:
-      - "application/json"
-      - "application/xml"
-      parameters:
-      - name: "username"
-        in: "path"
-        description: "The name that needs to be fetched. Use user1 for testing. "
-        required: true
-        type: "string"
-      responses:
-        200:
-          description: "successful operation"
-          schema:
-            $ref: "#/definitions/User"
-        400:
-          description: "Invalid username supplied"
-        404:
-          description: "User not found"
-    put:
-      tags:
-      - "user"
-      summary: "Updated user"
-      description: "This can only be done by the logged in user."
-      operationId: "updateUser"
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      - "application/xml"
-      parameters:
-      - name: "username"
-        in: "path"
-        description: "name that need to be updated"
-        required: true
-        type: "string"
-      - in: "body"
-        name: "body"
-        description: "Updated user object"
-        required: true
-        schema:
-          $ref: "#/definitions/User"
-      responses:
-        400:
-          description: "Invalid user supplied"
-        404:
-          description: "User not found"
-    delete:
-      tags:
-      - "user"
-      summary: "Delete user"
-      description: "This can only be done by the logged in user."
-      operationId: "deleteUser"
-      produces:
-      - "application/json"
-      - "application/xml"
-      parameters:
-      - name: "username"
-        in: "path"
-        description: "The name that needs to be deleted"
-        required: true
-        type: "string"
-      responses:
-        400:
-          description: "Invalid username supplied"
-        404:
-          description: "User not found"
-  /user/login:
-    get:
-      tags:
-      - "user"
-      summary: "Logs user into the system"
-      description: ""
-      operationId: "loginUser"
-      produces:
-      - "application/json"
-      - "application/xml"
-      parameters:
-      - name: "username"
-        in: "query"
-        description: "The user name for login"
-        required: true
-        type: "string"
-      - name: "password"
-        in: "query"
-        description: "The password for login in clear text"
-        required: true
-        type: "string"
-      responses:
-        200:
-          description: "successful operation"
-          headers:
-            X-Expires-After:
-              type: "string"
-              format: "date-time"
-              description: "date in UTC when token expires"
-            X-Rate-Limit:
-              type: "integer"
-              format: "int32"
-              description: "calls per hour allowed by the user"
-          schema:
-            type: "string"
-        400:
-          description: "Invalid username/password supplied"
-  /user/logout:
-    get:
-      tags:
-      - "user"
-      summary: "Logs out current logged in user session"
-      description: ""
-      operationId: "logoutUser"
-      produces:
-      - "application/json"
-      - "application/xml"
-      parameters: []
-      responses:
-        default:
-          description: "successful operation"
-  /user:
-    post:
-      tags:
-      - "user"
-      summary: "Create user"
-      description: "This can only be done by the logged in user."
-      operationId: "createUser"
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      - "application/xml"
-      parameters:
-      - in: "body"
-        name: "body"
-        description: "Created user object"
-        required: true
-        schema:
-          $ref: "#/definitions/User"
-      responses:
-        default:
-          description: "successful operation"
-securityDefinitions:
-  api_key:
-    type: "apiKey"
-    name: "api_key"
-    in: "header"
-  petstore_auth:
-    type: "oauth2"
-    authorizationUrl: "https://petstore.swagger.io/oauth/authorize"
-    flow: "implicit"
-    scopes:
-      read:pets: "read your pets"
-      write:pets: "modify pets in your account"
-definitions:
-  ApiResponse:
-    type: "object"
-    properties:
-      code:
-        type: "integer"
-        format: "int32"
-      type:
-        type: "string"
-      message:
-        type: "string"
-  Category:
-    type: "object"
-    properties:
-      id:
-        type: "integer"
-        format: "int64"
-      name:
-        type: "string"
-    xml:
-      name: "Category"
-  Pet:
-    type: "object"
-    required:
-    - "name"
-    - "photoUrls"
-    properties:
-      id:
-        type: "integer"
-        format: "int64"
-      category:
-        $ref: "#/definitions/Category"
-      name:
-        type: "string"
-        example: "doggie"
-      photoUrls:
-        type: "array"
-        xml:
-          wrapped: true
+            $ref: '#/components/schemas/DraftWish'
+          type: array
+          uniqueItems: false
+        has_more:
+          type: boolean
+        next_cursor:
+          type: string
+      type: object
+    Page-UserFriend:
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/UserFriend'
+          type: array
+          uniqueItems: false
+        has_more:
+          type: boolean
+        next_cursor:
+          type: string
+      type: object
+    Page-Wishlist:
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/Wishlist'
+          type: array
+          uniqueItems: false
+        has_more:
+          type: boolean
+        next_cursor:
+          type: string
+      type: object
+    RegisterRequest:
+      properties:
+        bio:
+          type: string
+        birth_date:
+          format: "2006-01-02"
+          type: string
+        email:
+          type: string
+        name:
+          type: string
+        password:
+          type: string
+        username:
+          type: string
+      required:
+      - password
+      - username
+      type: object
+    RegisterResponse:
+      properties:
+        tokens:
+          $ref: '#/components/schemas/TokenPair'
+        user:
+          $ref: '#/components/schemas/UserProfile'
+      required:
+      - tokens
+      - user
+      type: object
+    RemoveReservationMembersRequest:
+      properties:
+        user_ids:
+          items:
+            type: integer
+          type: array
+          uniqueItems: false
+      type: object
+    Reservation:
+      properties:
+        id:
+          type: integer
+        item_id:
+          type: integer
+        members:
+          items:
+            $ref: '#/components/schemas/UserProfile'
+          type: array
+          uniqueItems: false
+        reserved_by:
+          type: integer
+        wishlist_id:
+          type: integer
+      required:
+      - id
+      - item_id
+      - reserved_by
+      - wishlist_id
+      type: object
+    ReservationInvite:
+      properties:
+        id:
+          type: integer
+        invited_at:
+          type: string
+        invited_user:
+          $ref: '#/components/schemas/UserProfile'
+        item_id:
+          type: integer
+        reservation_id:
+          type: integer
+        reserved_by:
+          type: integer
+        status:
+          $ref: '#/components/schemas/reservation.InviteStatus'
+        wishlist_id:
+          type: integer
+      type: object
+    TokenPair:
+      properties:
+        access_token:
+          type: string
+        refresh_token:
+          type: string
+      required:
+      - access_token
+      - refresh_token
+      type: object
+    UpdateItemPhotoRequest:
+      properties:
+        file:
+          format: binary
+          type: string
+      required:
+      - file
+      type: object
+    UpdateUserAvatarRequest:
+      properties:
+        file:
+          format: binary
+          type: string
+      required:
+      - file
+      type: object
+    UpdateWishlistItemRequest:
+      properties:
+        description:
+          type: string
+        name:
+          type: string
+      required:
+      - name
+      type: object
+    UpdateWishlistRequest:
+      properties:
+        description:
+          type: string
+        name:
+          type: string
+      required:
+      - name
+      type: object
+    UserAvatarResponse:
+      properties:
+        path:
+          type: string
+      required:
+      - path
+      type: object
+    UserFriend:
+      properties:
+        id:
+          type: integer
+        username:
+          type: string
+      required:
+      - id
+      - username
+      type: object
+    UserProfile:
+      properties:
+        avatar_url:
+          type: string
+        bio:
+          type: string
+        birth_date:
+          format: "2006-01-02"
+          type: string
+        email:
+          type: string
+        id:
+          type: integer
+        name:
+          type: string
+        username:
+          type: string
+      required:
+      - id
+      - username
+      type: object
+    Wishlist:
+      properties:
+        created_at:
+          type: string
+        description:
+          type: string
+        id:
+          type: integer
         items:
-          type: "string"
-          xml:
-            name: "photoUrl"
-      tags:
-        type: "array"
-        xml:
-          wrapped: true
-        items:
-          xml:
-            name: "tag"
-          $ref: "#/definitions/Tag"
-      status:
-        type: "string"
-        description: "pet status in the store"
-        enum:
-        - "available"
-        - "pending"
-        - "sold"
-    xml:
-      name: "Pet"
-  Tag:
-    type: "object"
-    properties:
-      id:
-        type: "integer"
-        format: "int64"
-      name:
-        type: "string"
-    xml:
-      name: "Tag"
-  Order:
-    type: "object"
-    properties:
-      id:
-        type: "integer"
-        format: "int64"
-      petId:
-        type: "integer"
-        format: "int64"
-      quantity:
-        type: "integer"
-        format: "int32"
-      shipDate:
-        type: "string"
-        format: "date-time"
-      status:
-        type: "string"
-        description: "Order Status"
-        enum:
-        - "placed"
-        - "approved"
-        - "delivered"
-      complete:
-        type: "boolean"
-    xml:
-      name: "Order"
-  User:
-    type: "object"
-    properties:
-      id:
-        type: "integer"
-        format: "int64"
-      username:
-        type: "string"
-      firstName:
-        type: "string"
-      lastName:
-        type: "string"
-      email:
-        type: "string"
-      password:
-        type: "string"
-      phone:
-        type: "string"
-      userStatus:
-        type: "integer"
-        format: "int32"
-        description: "User Status"
-    xml:
-      name: "User"
+          items:
+            $ref: '#/components/schemas/WishlistItem'
+          type: array
+          uniqueItems: false
+        name:
+          type: string
+        owner_id:
+          type: integer
+      required:
+      - created_at
+      - id
+      - name
+      - owner_id
+      type: object
+    WishlistItem:
+      properties:
+        created_at:
+          type: string
+        description:
+          type: string
+        id:
+          type: integer
+        image_url:
+          type: string
+        name:
+          type: string
+        price:
+          type: integer
+        url:
+          type: string
+      required:
+      - created_at
+      - id
+      - name
+      type: object
+    friend.RequestStatus:
+      enum:
+      - pending
+      - accepted
+      - declined
+      type: string
+      x-enum-varnames:
+      - RequestStatusPending
+      - RequestStatusAccepted
+      - RequestStatusDeclined
+    reservation.InviteStatus:
+      enum:
+      - pending
+      - accepted
+      - declined
+      type: string
+      x-enum-varnames:
+      - InviteStatusPending
+      - InviteStatusAccepted
+      - InviteStatusDeclined
+  securitySchemes:
+    bearerauth:
+      bearerFormat: JWT
+      scheme: bearer
+      type: http
 externalDocs:
-  description: "Find out more about Swagger"
-  url: "http://swagger.io"
+  description: ""
+  url: ""
+info:
+  title: Wishlist Server API
+  version: ""
+openapi: 3.1.0
+paths:
+  /auth/login:
+    post:
+      description: Аутентификация пользователя с использованием логина и пароля. Возвращает
+        пару токенов доступа и обновления.
+      operationId: login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+        description: Данные для входа
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenPair'
+          description: Успешная аутентификация. Возвращается пара токенов
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Неверное тело запроса (например, невалидный JSON)
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Неверный логин или пароль
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Пользователь с указанным логином не найден
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Внутренняя ошибка сервера
+      summary: Вход пользователя
+      tags:
+      - auth
+  /auth/logout:
+    post:
+      description: Инвалидирует refresh токен пользователя, делая его непригодным
+        для последующего использования.
+      operationId: logout
+      responses:
+        "204":
+          content:
+            application/json:
+              schema:
+                type: ""
+          description: Токен инвалидирован
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Отсутствует или недействительный токен
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Внутренняя ошибка сервера
+      security:
+      - bearerauth: []
+      summary: Выход пользователя и аннулирование refresh токена
+      tags:
+      - auth
+  /auth/refresh:
+    post:
+      description: Обновляет пару токенов на основе предоставленного refresh токена.
+        Access токен не требуется.
+      operationId: refresh
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenPair'
+          description: Успешное обновление токенов
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Недействительный или просроченный refresh токен
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Внутренняя ошибка сервера
+      security:
+      - bearerauth: []
+      summary: Обновить пару токенов
+      tags:
+      - auth
+  /auth/register:
+    post:
+      description: Создает нового пользователя в системе. Требуется уникальное имя
+        пользователя и валидный email.
+      operationId: register
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+        description: Данные для регистрации нового пользователя
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegisterResponse'
+          description: Пользователь успешно зарегистрирован
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Неверный формат запроса (например, невалидный JSON)
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Пользователь с таким username или email уже существует
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Ошибка валидации входных данных (например, короткий пароль)
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Внутренняя ошибка сервера
+      summary: Регистрация нового пользователя
+      tags:
+      - auth
+  /draft-wishes:
+    delete:
+      operationId: deleteDraftWishes
+      responses:
+        "204":
+          content:
+            application/json:
+              schema:
+                type: ""
+          description: Виш удален
+        "400":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Неверный запрос
+        "401":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Не авторизован
+        "403":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Нет прав на выполнение операции
+        "500":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Внутренняя ошибка
+      security:
+      - bearerauth: []
+      summary: Удалить все черновые вишы
+      tags:
+      - draft_wishes
+    get:
+      operationId: getDraftWishes
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Page-DraftWish'
+          description: Список черновых вишей пользователя
+        "400":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Неверный запрос
+        "401":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Не авторизован
+        "500":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Внутренняя ошибка
+      security:
+      - bearerauth: []
+      summary: Получить список черновых вишей
+      tags:
+      - draft_wishes
+    post:
+      operationId: createDraftWish
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateDraftWishRequest'
+        description: Запрос создания чернового виша
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DraftWish'
+          description: Виш создан
+        "400":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Неверный запрос
+        "401":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Не авторизован
+        "500":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Внутренняя ошибка
+      security:
+      - bearerauth: []
+      summary: Создать черновой виш
+      tags:
+      - draft_wishes
+  /draft-wishes/{wish_id}:
+    delete:
+      operationId: deleteDraftWish
+      parameters:
+      - description: ID чернового виша
+        in: path
+        name: wish_id
+        required: true
+        schema:
+          type: integer
+      responses:
+        "204":
+          content:
+            application/json:
+              schema:
+                type: ""
+          description: Виш удален
+        "400":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Неверный запрос
+        "401":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Не авторизован
+        "403":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Нет прав на выполнение операции
+        "404":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Виш не найден
+        "500":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Внутренняя ошибка
+      security:
+      - bearerauth: []
+      summary: Удалить черновой виш
+      tags:
+      - draft_wishes
+  /draft-wishes/{wish_id}/move/{wishlist_id}:
+    post:
+      operationId: moveDraftWish
+      parameters:
+      - description: ID чернового виша
+        in: path
+        name: wish_id
+        required: true
+        schema:
+          type: integer
+      - description: ID вишлиста
+        in: path
+        name: wishlist_id
+        required: true
+        schema:
+          type: integer
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WishlistItem'
+          description: Предмет добавлен в вишлист
+        "400":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Неверный запрос
+        "401":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Не авторизован
+        "403":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Нет прав на выполнение операции
+        "404":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Вишлист не найден
+        "500":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Внутренняя ошибка
+      security:
+      - bearerauth: []
+      summary: Перенести черновой виш в вишлист
+      tags:
+      - draft_wishes
+  /friends:
+    get:
+      description: Возвращает список пользователей, которые являются друзьями текущего
+        пользователя. Результат может быть пагинирован.
+      operationId: getFriends
+      parameters:
+      - description: Номер страницы, по умолчанию 1
+        in: query
+        name: page
+        schema:
+          type: integer
+      - description: Количество друзей на странице, по умолчанию 20
+        in: query
+        name: limit
+        schema:
+          type: integer
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Page-UserFriend'
+          description: Пагинированный список друзей
+        "401":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Не авторизован — требуется валидный токен
+        "500":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Внутренняя ошибка сервера
+      security:
+      - bearerauth: []
+      summary: Получить список друзей текущего пользователя
+      tags:
+      - friends
+  /friends/{friend_id}:
+    delete:
+      description: Удаляет указанного пользователя из списка друзей текущего пользователя.
+      operationId: removeFriend
+      parameters:
+      - description: ID пользователя, которого нужно удалить из друзей
+        in: path
+        name: friend_id
+        required: true
+        schema:
+          type: integer
+      responses:
+        "204":
+          content:
+            application/json:
+              schema:
+                type: ""
+          description: Пользователь успешно удалён из списка друзей
+        "401":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Не авторизован — требуется валидный токен
+        "404":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Пользователь не найден в списке друзей
+        "500":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Внутренняя ошибка сервера
+      security:
+      - bearerauth: []
+      summary: Удалить пользователя из списка друзей
+      tags:
+      - friends
+  /friends/requests:
+    post:
+      operationId: createFriendRequest
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateFriendRequest'
+        description: Данные запроса дружбы (ID получателя и т.п.)
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FriendRequest'
+          description: Запрос дружбы успешно создан
+        "400":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Неверный формат запроса или отсутствуют обязательные поля
+        "401":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Пользователь не авторизован
+        "409":
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - type: string
+                - type: string
+          description: Запрос дружбы уже был отклонен и не может быть повторно отправлен
+        "500":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Внутренняя ошибка сервера
+      security:
+      - bearerauth: []
+      summary: Создание запроса дружбы от текущего пользователя другому
+      tags:
+      - friends
+  /friends/requests/{request_id}:
+    delete:
+      operationId: cancelFriendRequest
+      parameters:
+      - description: ID запроса на дружбу
+        in: path
+        name: request_id
+        required: true
+        schema:
+          type: integer
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: ""
+          description: Запрос на дружбу успешно удалён
+        "400":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Некорректный ID запроса или неверный формат запроса
+        "401":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Пользователь не авторизован
+        "403":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Нельзя отменить запрос, созданный другим пользователем
+        "404":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Запрос на дружбу с данным ID не найден
+        "500":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Внутренняя ошибка сервера
+      security:
+      - bearerauth: []
+      summary: Отменить запрос на добавление в друзья
+      tags:
+      - friends
+  /friends/requests/{request_id}/accept:
+    post:
+      operationId: acceptFriendRequest
+      parameters:
+      - description: ID запроса на дружбу
+        in: path
+        name: request_id
+        required: true
+        schema:
+          type: integer
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: ""
+          description: Запрос на дружбу успешно принят
+        "400":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Некорректный ID запроса или неверный формат запроса
+        "401":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Пользователь не авторизован
+        "403":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Нельзя принять собственный запрос на дружбу
+        "404":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Запрос на дружбу с данным ID не найден
+        "500":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Внутренняя ошибка сервера
+      security:
+      - bearerauth: []
+      summary: Принять запрос на добавление в друзья
+      tags:
+      - friends
+  /friends/requests/{request_id}/decline:
+    post:
+      operationId: declineFriendRequest
+      parameters:
+      - description: ID запроса на дружбу
+        in: path
+        name: request_id
+        required: true
+        schema:
+          type: integer
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: ""
+          description: Запрос на дружбу успешно отклонен
+        "400":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Некорректный ID запроса или неверный формат запроса
+        "401":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Пользователь не авторизован
+        "403":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Нельзя отклонить собственный запрос на дружбу
+        "404":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Запрос на дружбу с данным ID не найден
+        "500":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Внутренняя ошибка сервера
+      security:
+      - bearerauth: []
+      summary: Отклонить запрос на добавление в друзья
+      tags:
+      - friends
+  /friends/requests/incoming:
+    get:
+      description: Возвращает все запросы дружбы, которые были отправлены текущему
+        пользователю и ожидают его ответа.
+      operationId: getIncomingFriendRequests
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/FriendRequest'
+                type: array
+          description: Список входящих запросов дружбы
+        "401":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Не авторизован — отсутствует или неверный токен авторизации
+        "500":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Внутренняя ошибка сервера
+      security:
+      - bearerauth: []
+      summary: Получить список входящих запросов дружбы текущего пользователя
+      tags:
+      - friends
+  /friends/requests/outgoing:
+    get:
+      description: Возвращает все запросы дружбы, которые текущий пользователь отправил
+        другим пользователям и которые ещё не были подтверждены или отклонены.
+      operationId: getOutgoingFriendRequests
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/FriendRequest'
+                type: array
+          description: Список исходящих запросов дружбы
+        "401":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Не авторизован — отсутствует или неверный токен авторизации
+        "500":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Внутренняя ошибка сервера
+      security:
+      - bearerauth: []
+      summary: Получить список исходящих запросов дружбы текущего пользователя
+      tags:
+      - friends
+  /me:
+    get:
+      description: Возвращает информацию профиля текущего авторизованного пользователя,
+        включая имя, аватар и статус.
+      operationId: getCurrentUserProfile
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfile'
+          description: Профиль пользователя успешно получен
+        "401":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Неавторизованный доступ
+        "500":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Внутренняя ошибка сервера
+      security:
+      - bearerauth: []
+      summary: Получить профиль текущего пользователя
+      tags:
+      - users
+  /me/avatar:
+    delete:
+      description: Удаляет текущий аватар пользователя, если он установлен.
+      operationId: deleteUserAvatar
+      responses:
+        "204":
+          content:
+            application/json:
+              schema:
+                type: ""
+          description: Аватар пользователя успешно удалён
+        "401":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Не авторизован
+        "500":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Внутренняя ошибка
+      security:
+      - bearerauth: []
+      summary: Удалить аватар пользователя
+      tags:
+      - users
+    post:
+      description: Загружает новый аватар текущего пользователя. Старый аватар (если
+        есть) будет заменён.
+      operationId: updateUserAvatar
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UpdateUserAvatarRequest'
+        description: Аватар пользователя (JPEG, PNG)
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserAvatarResponse'
+          description: Аватар успешно обновлён
+        "400":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Неверный формат файла или превышен размер
+        "401":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Не авторизован
+        "500":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Внутренняя ошибка
+      security:
+      - bearerauth: []
+      summary: Обновить аватар пользователя
+      tags:
+      - users
+  /reservations:
+    get:
+      description: Возвращает все активные бронирования, сделанные текущим авторизованным
+        пользователем.
+      operationId: getUserReservations
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Reservation'
+                type: array
+          description: Список бронирований пользователя
+        "400":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Неверный запрос — например, неверные параметры
+        "401":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Не авторизован — требуется действующий токен авторизации
+        "500":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Внутренняя ошибка сервера
+      security:
+      - bearerauth: []
+      summary: Получить список бронирований для текущего пользователя
+      tags:
+      - reservations
+  /reservations/{reservation_id}:
+    delete:
+      description: Отменяет бронирование, если текущий пользователь является его автором,
+        или позволяет пользователю выйти из бронирования, если он не автор.
+      operationId: cancelReservation
+      parameters:
+      - description: ID бронирования
+        in: path
+        name: reservation_id
+        required: true
+        schema:
+          type: integer
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: ""
+          description: Бронирование успешно отменено или пользователь вышел из бронирования
+        "400":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Неверный запрос (например, неверный ID)
+        "401":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Пользователь не авторизован
+        "404":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Бронирование не найдено
+        "500":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Внутренняя ошибка сервера
+      security:
+      - bearerauth: []
+      summary: Отменить бронирование или выйти из брони
+      tags:
+      - reservations
+  /reservations/{reservation_id}/users:
+    delete:
+      operationId: removeMembersFromReservation
+      parameters:
+      - description: ID бронирования
+        in: path
+        name: reservation_id
+        required: true
+        schema:
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RemoveReservationMembersRequest'
+        description: Запрос на удаление пользователей
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: ""
+          description: Участники успешно удалены
+        "400":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Неверный запрос
+        "401":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Не авторизован
+        "404":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Бронирование не найдено
+        "500":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Внутренняя ошибка
+      security:
+      - bearerauth: []
+      summary: Удалить приглашённых участников из бронирования. Доступно только автору
+        брони. Автор брони не может удалить себя.
+      tags:
+      - reservations
+    get:
+      operationId: getReservationUsers
+      parameters:
+      - description: Уникальный идентификатор брони
+        in: path
+        name: reservation_id
+        required: true
+        schema:
+          type: integer
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/UserProfile'
+                type: array
+          description: Массив профилей пользователей, которые имеют доступ или участвуют
+            в данной брони
+        "400":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Неверный формат запроса или отсутствует обязательный параметр
+        "401":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Пользователь не авторизован для просмотра участников брони
+        "404":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Бронирование с указанным ID не найдено
+        "500":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Внутренняя ошибка сервера при обработке запроса
+      security:
+      - bearerauth: []
+      summary: Получить список пользователей, участвующих в бронировании
+      tags:
+      - reservations
+  /reservations/{reservation_id}/users/invite:
+    post:
+      operationId: inviteUsersToReservation
+      parameters:
+      - description: ID бронирования, в которое приглашаются пользователи
+        in: path
+        name: reservation_id
+        required: true
+        schema:
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InviteRequest'
+        description: Данные с идентификаторами пользователей для приглашения
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: ""
+          description: Пользователи успешно приглашены
+        "400":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Неверный формат запроса или отсутствуют обязательные данные
+        "401":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Пользователь не авторизован или не имеет прав доступа
+        "404":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Бронирование с указанным ID не найдено
+        "500":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Внутренняя ошибка сервера
+      security:
+      - bearerauth: []
+      summary: Пригласить одного или нескольких пользователей присоединиться к коллективной
+        броне
+      tags:
+      - reservations
+  /reservations/invites:
+    get:
+      operationId: getUserReservationInvites
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ReservationInvite'
+                type: array
+          description: Список приглашений
+        "400":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Неверный запрос
+        "401":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Не авторизован
+        "500":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Внутренняя ошибка
+      security:
+      - bearerauth: []
+      summary: Получить список приглашений для пользователя
+      tags:
+      - reservations
+  /reservations/invites/{invite_id}/accept:
+    post:
+      operationId: acceptReservationInvite
+      parameters:
+      - description: ID приглашения
+        in: path
+        name: invite_id
+        required: true
+        schema:
+          type: integer
+      responses:
+        "204":
+          content:
+            application/json:
+              schema:
+                type: ""
+          description: Приглашение принято
+        "400":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Неверный запрос
+        "401":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Не авторизован
+        "500":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Внутренняя ошибка
+      security:
+      - bearerauth: []
+      summary: Принять приглашение на бронь
+      tags:
+      - reservations
+  /reservations/invites/{invite_id}/decline:
+    post:
+      operationId: declineReservationInvite
+      parameters:
+      - description: ID приглашения
+        in: path
+        name: invite_id
+        required: true
+        schema:
+          type: integer
+      responses:
+        "204":
+          content:
+            application/json:
+              schema:
+                type: ""
+          description: Приглашение отклонено
+        "400":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Неверный запрос
+        "401":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Не авторизован
+        "500":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Внутренняя ошибка
+      security:
+      - bearerauth: []
+      summary: Отклонить приглашение на бронь
+      tags:
+      - reservations
+  /users/{username}:
+    get:
+      description: Возвращает публичную информацию профиля пользователя по его username.
+        Доступно без авторизации.
+      operationId: getUserProfile
+      parameters:
+      - description: Уникальное имя пользователя (username)
+        in: path
+        name: username
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfile'
+          description: Публичный профиль пользователя успешно получен
+        "404":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Пользователь не найден
+        "500":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Внутренняя ошибка сервера
+      summary: Получить публичный профиль пользователя
+      tags:
+      - users
+  /wishlists:
+    get:
+      operationId: getWishlists
+      parameters:
+      - description: ID пользователя
+        in: query
+        name: user
+        required: true
+        schema:
+          type: integer
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Page-Wishlist'
+          description: Список вишлистов пользователя
+        "400":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Неверный запрос
+        "401":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Не авторизован
+        "500":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Внутренняя ошибка
+      security:
+      - bearerauth: []
+      summary: Получить список вишлистов пользователя
+      tags:
+      - wishlists
+    post:
+      operationId: createWishlist
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateWishlistRequest'
+        description: Запрос создания вишлиста
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Wishlist'
+          description: Вишлист создан
+        "400":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Неверный запрос
+        "401":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Не авторизован
+        "500":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Внутренняя ошибка
+      security:
+      - bearerauth: []
+      summary: Создать вишлист
+      tags:
+      - wishlists
+  /wishlists/{wishlist_id}:
+    delete:
+      operationId: deleteWishlist
+      parameters:
+      - description: ID вишлиста
+        in: path
+        name: wishlist_id
+        required: true
+        schema:
+          type: integer
+      responses:
+        "204":
+          content:
+            application/json:
+              schema:
+                type: ""
+          description: Вишлист удален
+        "400":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Неверный запрос
+        "401":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Не авторизован
+        "403":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Нет прав на удаление ресурса
+        "404":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Ресурс не найден
+        "500":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Внутренняя ошибка
+      security:
+      - bearerauth: []
+      summary: Удалить вишлист пользователя
+      tags:
+      - wishlists
+    get:
+      operationId: getWishlist
+      parameters:
+      - description: ID вишлиста
+        in: path
+        name: wishlist_id
+        required: true
+        schema:
+          type: integer
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Wishlist'
+          description: Вишлист
+        "400":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Неверный запрос
+        "401":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Не авторизован
+        "404":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Ресурс не найден
+        "500":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Внутренняя ошибка
+      security:
+      - bearerauth: []
+      summary: Получить вишлист по идентификатору
+      tags:
+      - wishlists
+    put:
+      operationId: updateWishlist
+      parameters:
+      - description: ID вишлиста
+        in: path
+        name: wishlist_id
+        required: true
+        schema:
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateWishlistRequest'
+        description: Запрос обновления вишлиста
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Wishlist'
+          description: Вишлист обновлен
+        "400":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Неверный запрос
+        "401":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Не авторизован
+        "403":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Нет прав на обновление ресурса
+        "404":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Ресурс не найден
+        "500":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Внутренняя ошибка
+      security:
+      - bearerauth: []
+      summary: Обновить вишлист
+      tags:
+      - wishlists
+  /wishlists/{wishlist_id}/items:
+    post:
+      operationId: createWishlistItem
+      parameters:
+      - description: ID вишлиста
+        in: path
+        name: wishlist_id
+        required: true
+        schema:
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateWishlistItemRequest'
+        description: Запрос создания предмета
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WishlistItem'
+          description: Предмет добавлен
+        "400":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Неверный запрос
+        "401":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Не авторизован
+        "404":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Вишлист не найден
+        "500":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Внутренняя ошибка
+      security:
+      - bearerauth: []
+      summary: Добавить предмет в вишлист
+      tags:
+      - wishlists
+  /wishlists/{wishlist_id}/items/{item_id}:
+    delete:
+      operationId: deleteWishlistItem
+      parameters:
+      - description: ID вишлиста
+        in: path
+        name: wishlist_id
+        required: true
+        schema:
+          type: integer
+      - description: ID предмета
+        in: path
+        name: item_id
+        required: true
+        schema:
+          type: integer
+      responses:
+        "204":
+          content:
+            application/json:
+              schema:
+                type: ""
+          description: Предмет удален
+        "400":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Неверный запрос
+        "401":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Не авторизован
+        "403":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Нет прав на удаление предмета
+        "404":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Вишлист или предмет не найден
+        "500":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Внутренняя ошибка
+      security:
+      - bearerauth: []
+      summary: Удалить предмет вишлиста
+      tags:
+      - wishlists
+    put:
+      operationId: updateWishlistItem
+      parameters:
+      - description: ID вишлиста
+        in: path
+        name: wishlist_id
+        required: true
+        schema:
+          type: integer
+      - description: ID предмета
+        in: path
+        name: item_id
+        required: true
+        schema:
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateWishlistItemRequest'
+        description: Запрос обновления предмета
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WishlistItem'
+          description: Предмет обновлен
+        "400":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Неверный запрос
+        "401":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Не авторизован
+        "404":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Вишлист или предмет не найден
+        "500":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Внутренняя ошибка
+      security:
+      - bearerauth: []
+      summary: Обновить предмет вишлиста
+      tags:
+      - wishlists
+  /wishlists/{wishlist_id}/items/{item_id}/photo:
+    delete:
+      operationId: deleteWishlistItemPhoto
+      parameters:
+      - description: ID вишлиста
+        in: path
+        name: wishlist_id
+        required: true
+        schema:
+          type: integer
+      - description: ID предмета
+        in: path
+        name: item_id
+        required: true
+        schema:
+          type: integer
+      responses:
+        "204":
+          content:
+            application/json:
+              schema:
+                type: ""
+          description: Изображение предмета вишлиста удалено
+        "400":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Некорректный запрос
+        "401":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Неавторизован
+        "403":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Доступ запрещён (нет прав)
+        "404":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Предмет вишлиста не найден
+        "500":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Внутренняя ошибка сервера
+      security:
+      - bearerauth: []
+      summary: Удалить изображение предмета вишлиста
+      tags:
+      - wishlists
+    post:
+      operationId: updateWishlistItemPhoto
+      parameters:
+      - description: ID вишлиста
+        in: path
+        name: wishlist_id
+        required: true
+        schema:
+          type: integer
+      - description: ID предмета
+        in: path
+        name: item_id
+        required: true
+        schema:
+          type: integer
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UpdateItemPhotoRequest'
+        description: Фото предмета
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemPhoto'
+          description: Относительный путь до изображения предмета
+        "400":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Некорректный запрос (например, файл не передан или формат неверный)
+        "401":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Неавторизован
+        "403":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Доступ запрещён (нет прав)
+        "404":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Предмет вишлиста не найден
+        "500":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Внутренняя ошибка сервера
+      security:
+      - bearerauth: []
+      summary: Обновить изображение предмета вишлиста
+      tags:
+      - wishlists
+  /wishlists/{wishlist_id}/items/{item_id}/reservations:
+    post:
+      description: Позволяет авторизованному пользователю забронировать конкретный
+        предмет из указанного вишлиста.
+      operationId: reserveWishlistItem
+      parameters:
+      - description: ID вишлиста, к которому принадлежит предмет
+        in: path
+        name: wishlist_id
+        required: true
+        schema:
+          type: integer
+      - description: ID предмета, который нужно забронировать
+        in: path
+        name: item_id
+        required: true
+        schema:
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Reservation'
+          description: Созданное бронирование с деталями
+        "400":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Неверный запрос — например, неверные параметры
+        "401":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Не авторизован — требуется токен авторизации
+        "404":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Вишлист или предмет с указанными ID не найден
+        "500":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Внутренняя ошибка сервера
+      security:
+      - bearerauth: []
+      summary: Создать бронь предмета вишлиста
+      tags:
+      - reservations
+  /wishlists/{wishlist_id}/reservations:
+    get:
+      description: Возвращает список всех бронирований предметов, принадлежащих указанному
+        вишлисту.
+      operationId: getWishlistReservations
+      parameters:
+      - description: ID вишлиста, для которого запрашиваются бронирования
+        in: path
+        name: wishlist_id
+        required: true
+        schema:
+          type: integer
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Reservation'
+                type: array
+          description: Список бронирований по вишлисту
+        "400":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Неверный запрос — например, неверный ID
+        "401":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Не авторизован — требуется токен авторизации
+        "404":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Вишлист не найден
+        "500":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Внутренняя ошибка сервера
+      security:
+      - bearerauth: []
+      summary: Получить список бронирований для вишлиста
+      tags:
+      - reservations
+servers:
+- url: /api/v1
