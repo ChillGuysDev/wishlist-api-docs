@@ -564,25 +564,25 @@ paths:
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Неверный запрос
         "401":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Не авторизован
         "403":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Нет прав на выполнение операции
         "500":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Внутренняя ошибка
       security:
       - bearerauth: []
@@ -602,19 +602,19 @@ paths:
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Неверный запрос
         "401":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Не авторизован
         "500":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Внутренняя ошибка
       security:
       - bearerauth: []
@@ -641,19 +641,19 @@ paths:
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Неверный запрос
         "401":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Не авторизован
         "500":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Внутренняя ошибка
       security:
       - bearerauth: []
@@ -681,31 +681,31 @@ paths:
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Неверный запрос
         "401":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Не авторизован
         "403":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Нет прав на выполнение операции
         "404":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Виш не найден
         "500":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Внутренняя ошибка
       security:
       - bearerauth: []
@@ -739,31 +739,31 @@ paths:
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Неверный запрос
         "401":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Не авторизован
         "403":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Нет прав на выполнение операции
         "404":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Вишлист не найден
         "500":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Внутренняя ошибка
       security:
       - bearerauth: []
@@ -797,13 +797,13 @@ paths:
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Не авторизован — требуется валидный токен
         "500":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Внутренняя ошибка сервера
       security:
       - bearerauth: []
@@ -832,19 +832,19 @@ paths:
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Не авторизован — требуется валидный токен
         "404":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Пользователь не найден в списке друзей
         "500":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Внутренняя ошибка сервера
       security:
       - bearerauth: []
@@ -872,27 +872,27 @@ paths:
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Неверный формат запроса или отсутствуют обязательные поля
         "401":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Пользователь не авторизован
         "409":
           content:
             application/json:
               schema:
                 oneOf:
-                - type: string
-                - type: string
+                - $ref: '#/components/schemas/ErrorResponse'
+                - $ref: '#/components/schemas/ErrorResponse'
           description: Запрос дружбы уже был отклонен и не может быть повторно отправлен
         "500":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Внутренняя ошибка сервера
       security:
       - bearerauth: []
@@ -920,31 +920,31 @@ paths:
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Некорректный ID запроса или неверный формат запроса
         "401":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Пользователь не авторизован
         "403":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Нельзя отменить запрос, созданный другим пользователем
         "404":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Запрос на дружбу с данным ID не найден
         "500":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Внутренняя ошибка сервера
       security:
       - bearerauth: []
@@ -972,31 +972,31 @@ paths:
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Некорректный ID запроса или неверный формат запроса
         "401":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Пользователь не авторизован
         "403":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Нельзя принять собственный запрос на дружбу
         "404":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Запрос на дружбу с данным ID не найден
         "500":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Внутренняя ошибка сервера
       security:
       - bearerauth: []
@@ -1024,31 +1024,31 @@ paths:
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Некорректный ID запроса или неверный формат запроса
         "401":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Пользователь не авторизован
         "403":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Нельзя отклонить собственный запрос на дружбу
         "404":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Запрос на дружбу с данным ID не найден
         "500":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Внутренняя ошибка сервера
       security:
       - bearerauth: []
@@ -1073,13 +1073,13 @@ paths:
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Не авторизован — отсутствует или неверный токен авторизации
         "500":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Внутренняя ошибка сервера
       security:
       - bearerauth: []
@@ -1104,13 +1104,13 @@ paths:
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Не авторизован — отсутствует или неверный токен авторизации
         "500":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Внутренняя ошибка сервера
       security:
       - bearerauth: []
@@ -1133,13 +1133,13 @@ paths:
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Неавторизованный доступ
         "500":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Внутренняя ошибка сервера
       security:
       - bearerauth: []
@@ -1161,13 +1161,13 @@ paths:
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Не авторизован
         "500":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Внутренняя ошибка
       security:
       - bearerauth: []
@@ -1196,19 +1196,19 @@ paths:
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Неверный формат файла или превышен размер
         "401":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Не авторизован
         "500":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Внутренняя ошибка
       security:
       - bearerauth: []
@@ -1233,19 +1233,19 @@ paths:
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Неверный запрос — например, неверные параметры
         "401":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Не авторизован — требуется действующий токен авторизации
         "500":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Внутренняя ошибка сервера
       security:
       - bearerauth: []
@@ -1275,25 +1275,25 @@ paths:
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Неверный запрос (например, неверный ID)
         "401":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Пользователь не авторизован
         "404":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Бронирование не найдено
         "500":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Внутренняя ошибка сервера
       security:
       - bearerauth: []
@@ -1328,25 +1328,25 @@ paths:
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Неверный запрос
         "401":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Не авторизован
         "404":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Бронирование не найдено
         "500":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Внутренняя ошибка
       security:
       - bearerauth: []
@@ -1377,25 +1377,25 @@ paths:
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Неверный формат запроса или отсутствует обязательный параметр
         "401":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Пользователь не авторизован для просмотра участников брони
         "404":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Бронирование с указанным ID не найдено
         "500":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Внутренняя ошибка сервера при обработке запроса
       security:
       - bearerauth: []
@@ -1430,25 +1430,25 @@ paths:
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Неверный формат запроса или отсутствуют обязательные данные
         "401":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Пользователь не авторизован или не имеет прав доступа
         "404":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Бронирование с указанным ID не найдено
         "500":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Внутренняя ошибка сервера
       security:
       - bearerauth: []
@@ -1472,19 +1472,19 @@ paths:
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Неверный запрос
         "401":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Не авторизован
         "500":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Внутренняя ошибка
       security:
       - bearerauth: []
@@ -1512,19 +1512,19 @@ paths:
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Неверный запрос
         "401":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Не авторизован
         "500":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Внутренняя ошибка
       security:
       - bearerauth: []
@@ -1552,19 +1552,19 @@ paths:
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Неверный запрос
         "401":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Не авторизован
         "500":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Внутренняя ошибка
       security:
       - bearerauth: []
@@ -1594,13 +1594,13 @@ paths:
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Пользователь не найден
         "500":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Внутренняя ошибка сервера
       summary: Получить публичный профиль пользователя
       tags:
@@ -1705,31 +1705,31 @@ paths:
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Неверный запрос
         "401":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Не авторизован
         "403":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Нет прав на удаление ресурса
         "404":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Ресурс не найден
         "500":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Внутренняя ошибка
       security:
       - bearerauth: []
@@ -1867,25 +1867,25 @@ paths:
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Неверный запрос
         "401":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Не авторизован
         "404":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Вишлист не найден
         "500":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Внутренняя ошибка
       security:
       - bearerauth: []
@@ -1919,31 +1919,31 @@ paths:
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Неверный запрос
         "401":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Не авторизован
         "403":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Нет прав на удаление предмета
         "404":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Вишлист или предмет не найден
         "500":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Внутренняя ошибка
       security:
       - bearerauth: []
@@ -1983,25 +1983,25 @@ paths:
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Неверный запрос
         "401":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Не авторизован
         "404":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Вишлист или предмет не найден
         "500":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Внутренняя ошибка
       security:
       - bearerauth: []
@@ -2035,31 +2035,31 @@ paths:
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Некорректный запрос
         "401":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Неавторизован
         "403":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Доступ запрещён (нет прав)
         "404":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Предмет вишлиста не найден
         "500":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Внутренняя ошибка сервера
       security:
       - bearerauth: []
@@ -2099,31 +2099,31 @@ paths:
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Некорректный запрос (например, файл не передан или формат неверный)
         "401":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Неавторизован
         "403":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Доступ запрещён (нет прав)
         "404":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Предмет вишлиста не найден
         "500":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Внутренняя ошибка сервера
       security:
       - bearerauth: []
@@ -2164,25 +2164,25 @@ paths:
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Неверный запрос — например, неверные параметры
         "401":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Не авторизован — требуется токен авторизации
         "404":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Вишлист или предмет с указанными ID не найден
         "500":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Внутренняя ошибка сервера
       security:
       - bearerauth: []
@@ -2214,25 +2214,25 @@ paths:
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Неверный запрос — например, неверный ID
         "401":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Не авторизован — требуется токен авторизации
         "404":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Вишлист не найден
         "500":
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ErrorResponse'
           description: Внутренняя ошибка сервера
       security:
       - bearerauth: []
