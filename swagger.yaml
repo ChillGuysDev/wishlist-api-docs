@@ -2240,4 +2240,4 @@ paths:
       tags:
       - reservations
 servers:
-- url: http://85.198.80.148/api/v1
+- url: https://85.198.80.148/api/v1
