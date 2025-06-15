@@ -164,6 +164,11 @@ components:
         next_cursor:
           type: string
       type: object
+    RefreshRequest:
+      properties:
+        refresh_token:
+          type: string
+      type: object
     RegisterRequest:
       properties:
         bio:
@@ -480,6 +485,13 @@ paths:
       description: Обновляет пару токенов на основе предоставленного refresh токена.
         Access токен не требуется.
       operationId: refresh
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RefreshRequest'
+        description: Запрос обновления токена
+        required: true
       responses:
         "200":
           content:
@@ -499,8 +511,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
           description: Внутренняя ошибка сервера
-      security:
-      - bearerauth: []
       summary: Обновить пару токенов
       tags:
       - auth
