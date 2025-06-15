@@ -591,6 +591,17 @@ paths:
       - draft_wishes
     get:
       operationId: getDraftWishes
+      parameters:
+      - description: Лимит результатов
+        in: query
+        name: limit
+        schema:
+          type: integer
+      - description: Курсор для следующей страницы
+        in: query
+        name: next_cursor
+        schema:
+          type: string
       responses:
         "200":
           content:
@@ -776,16 +787,16 @@ paths:
         пользователя. Результат может быть пагинирован.
       operationId: getFriends
       parameters:
-      - description: Номер страницы, по умолчанию 1
-        in: query
-        name: page
-        schema:
-          type: integer
-      - description: Количество друзей на странице, по умолчанию 20
+      - description: Лимит результатов
         in: query
         name: limit
         schema:
           type: integer
+      - description: Курсор для следующей страницы
+        in: query
+        name: next_cursor
+        schema:
+          type: string
       responses:
         "200":
           content:
@@ -1612,9 +1623,18 @@ paths:
       - description: ID пользователя
         in: query
         name: user
-        required: true
         schema:
           type: integer
+      - description: Лимит результатов
+        in: query
+        name: limit
+        schema:
+          type: integer
+      - description: Курсор для следующей страницы
+        in: query
+        name: next_cursor
+        schema:
+          type: string
       responses:
         "200":
           content:
