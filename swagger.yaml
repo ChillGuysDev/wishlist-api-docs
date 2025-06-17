@@ -458,10 +458,6 @@ paths:
       operationId: logout
       responses:
         "204":
-          content:
-            application/json:
-              schema:
-                type: ""
           description: Токен инвалидирован
         "401":
           content:
@@ -565,10 +561,6 @@ paths:
       operationId: deleteDraftWishes
       responses:
         "204":
-          content:
-            application/json:
-              schema:
-                type: ""
           description: Виш удален
         "400":
           content:
@@ -693,10 +685,6 @@ paths:
           type: integer
       responses:
         "204":
-          content:
-            application/json:
-              schema:
-                type: ""
           description: Виш удален
         "400":
           content:
@@ -844,10 +832,6 @@ paths:
           type: integer
       responses:
         "204":
-          content:
-            application/json:
-              schema:
-                type: ""
           description: Пользователь успешно удалён из списка друзей
         "401":
           content:
@@ -1173,10 +1157,6 @@ paths:
       operationId: deleteUserAvatar
       responses:
         "204":
-          content:
-            application/json:
-              schema:
-                type: ""
           description: Аватар пользователя успешно удалён
         "401":
           content:
@@ -1524,10 +1504,6 @@ paths:
           type: integer
       responses:
         "204":
-          content:
-            application/json:
-              schema:
-                type: ""
           description: Приглашение принято
         "400":
           content:
@@ -1564,10 +1540,6 @@ paths:
           type: integer
       responses:
         "204":
-          content:
-            application/json:
-              schema:
-                type: ""
           description: Приглашение отклонено
         "400":
           content:
@@ -1726,10 +1698,6 @@ paths:
           type: integer
       responses:
         "204":
-          content:
-            application/json:
-              schema:
-                type: ""
           description: Вишлист удален
         "400":
           content:
@@ -1940,10 +1908,6 @@ paths:
           type: integer
       responses:
         "204":
-          content:
-            application/json:
-              schema:
-                type: ""
           description: Предмет удален
         "400":
           content:
@@ -2056,10 +2020,6 @@ paths:
           type: integer
       responses:
         "204":
-          content:
-            application/json:
-              schema:
-                type: ""
           description: Изображение предмета вишлиста удалено
         "400":
           content:
