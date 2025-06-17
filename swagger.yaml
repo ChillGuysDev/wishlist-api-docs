@@ -915,11 +915,7 @@ paths:
         schema:
           type: integer
       responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                type: ""
+        "204":
           description: Запрос на дружбу успешно удалён
         "400":
           content:
@@ -967,11 +963,7 @@ paths:
         schema:
           type: integer
       responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                type: ""
+        "204":
           description: Запрос на дружбу успешно принят
         "400":
           content:
@@ -1019,11 +1011,7 @@ paths:
         schema:
           type: integer
       responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                type: ""
+        "204":
           description: Запрос на дружбу успешно отклонен
         "400":
           content:
@@ -1266,11 +1254,7 @@ paths:
         schema:
           type: integer
       responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                type: ""
+        "204":
           description: Бронирование успешно отменено или пользователь вышел из бронирования
         "400":
           content:
@@ -1319,11 +1303,7 @@ paths:
         description: Запрос на удаление пользователей
         required: true
       responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                type: ""
+        "204":
           description: Участники успешно удалены
         "400":
           content:
@@ -1421,11 +1401,7 @@ paths:
         description: Данные с идентификаторами пользователей для приглашения
         required: true
       responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                type: ""
+        "204":
           description: Пользователи успешно приглашены
         "400":
           content:
