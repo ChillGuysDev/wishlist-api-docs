@@ -1,5 +1,14 @@
 components:
   schemas:
+    PaginatedResponse:
+      type: object
+      properties:
+        has_more:
+          type: boolean
+          description: "Указывает, есть ли еще элементы после текущей страницы."
+        next_cursor:
+          type: string
+          description: "Значение курсора для получения следующей страницы результатов. Отсутствует или пустое, если следующих страниц нет."
     APIError:
       properties:
         details:
@@ -135,42 +144,34 @@ components:
       - password
       - username
       type: object
-    Page-DraftWish:
-      properties:
-        data:
-          items:
-            $ref: '#/components/schemas/DraftWish'
-          type: array
-          uniqueItems: false
-        has_more:
-          type: boolean
-        next_cursor:
-          type: string
+    DraftWishesPaginatedResponse:
+      allOf:
+        - $ref: '#/components/schemas/PaginatedResponse'
+        - type: object
+          properties:
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/DraftWish'
+    UserFriendsPaginatedResponse:
+      allOf:
+        - $ref: '#/components/schemas/PaginatedResponse'
+        - type: object
+          properties:
+            data:
+              items:
+                $ref: '#/components/schemas/UserFriend'
+              type: array
       type: object
-    Page-UserFriend:
-      properties:
-        data:
-          items:
-            $ref: '#/components/schemas/UserFriend'
-          type: array
-          uniqueItems: false
-        has_more:
-          type: boolean
-        next_cursor:
-          type: string
-      type: object
-    Page-Wishlist:
-      properties:
-        data:
-          items:
-            $ref: '#/components/schemas/Wishlist'
-          type: array
-          uniqueItems: false
-        has_more:
-          type: boolean
-        next_cursor:
-          type: string
-      type: object
+    WishlistsPaginatedResponse:
+      allOf:
+        - $ref: '#/components/schemas/PaginatedResponse'
+        - type: object
+          properties:
+            data:
+              items:
+                $ref: '#/components/schemas/Wishlist'
+              type: array
     RefreshRequest:
       properties:
         refresh_token:
@@ -723,7 +724,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Page-DraftWish'
+                $ref: '#/components/schemas/DraftWishesPaginatedResponse'
           description: Список черновых вишей пользователя
         "400":
           content:
@@ -891,7 +892,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Page-UserFriend'
+                $ref: '#/components/schemas/UserFriendsPaginatedResponse'
           description: Пагинированный список друзей
         "401":
           content:
@@ -1630,7 +1631,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Page-Wishlist'
+                $ref: '#/components/schemas/WishlistsPaginatedResponse'
           description: Список вишлистов пользователя
         "400":
           content:
