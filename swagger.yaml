@@ -3,7 +3,7 @@ info:
   title: Wishlist Server API
   version: ''
 servers:
-  - url: https://85.198.80.148/api/v1
+  - url: https://88.218.170.93/api/v1
 paths:
   /auth/login:
     post:
